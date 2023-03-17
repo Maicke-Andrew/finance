@@ -1,2 +1,4 @@
 /serverantigo
 /web
+/server/node_modules
+/server/.env

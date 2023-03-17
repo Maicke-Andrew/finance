@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = __importDefault(require("../controllers/user.controller"));
+const multer_1 = __importDefault(require("multer"));
+const global_middlewares_1 = require("../middlewares/global.middlewares");
+const userRouter = (0, express_1.Router)();
+const upload = (0, multer_1.default)({ storage: global_middlewares_1.fileMulter });
+userRouter.post('/enterWithGoogle', user_controller_1.default.enterWithGoogle);
+userRouter.post('/sendEmail', user_controller_1.default.sendEmail);
+userRouter.post('/emailNewPassword', user_controller_1.default.emailNewPassword);
+userRouter.get('/confirmAccount', user_controller_1.default.confirmAccount);
+userRouter.post('/emailNewPassword', user_controller_1.default.emailNewPassword);
+userRouter.get('/newPassword', user_controller_1.default.newPassword);
+userRouter.post('/newPassword', user_controller_1.default.changePassword);
+userRouter.post('/logout', user_controller_1.default.logout);
+userRouter.post('/newPicture', upload.single('file'), user_controller_1.default.updateImg);
+exports.default = userRouter;

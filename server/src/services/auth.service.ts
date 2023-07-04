@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt'
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import temporaryUser from '../models/temporaryUser';

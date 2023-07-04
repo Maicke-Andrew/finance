@@ -1,10 +1,8 @@
 import { Router } from "express";
+import upload from "../config/multer";
 import userController from "../controllers/user.controller";
-import multer from "multer";
-import { fileMulter } from "../middlewares/global.middlewares";
 
 const userRouter = Router()
-const upload = multer({ storage: fileMulter })
 
 userRouter.post('/enterWithGoogle', userController.enterWithGoogle);
 userRouter.post('/sendEmail', userController.sendEmail);
@@ -15,5 +13,6 @@ userRouter.get('/newPassword', userController.newPassword);
 userRouter.post('/newPassword', userController.changePassword);
 userRouter.post('/logout', userController.logout);
 userRouter.post('/newPicture', upload.single('file'), userController.updateImg);
+userRouter.post('/getPicture', userController.getImg);
 
 export default userRouter

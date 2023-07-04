@@ -12,7 +12,7 @@ const authController = {
 
             return res.status(201).send(response)
         } catch (e) {
-            return res.send(e)
+            return res.status(501).send(e)
         }
     },
     doValidateToken: async (req: any, res: any) => {
@@ -25,7 +25,7 @@ const authController = {
 
             return res.status(201).send(response)
         } catch (e) {
-            return res.send(e)
+            return res.status(501).send(e)
         }
     },
     emailAlreadyUsed: async (req: any, res: any) => {
@@ -38,7 +38,7 @@ const authController = {
 
             return res.status(201).send(response)
         } catch (e) {
-            return res.send(e)
+            return res.status(501).send(e)
         }
     },
     loginAlreadyUsed: async (req: any, res: any) => {
@@ -51,7 +51,7 @@ const authController = {
 
             return res.status(201).send(response)
         } catch (e) {
-            return res.send(e)
+            return res.status(501).send(e)
         }
     }
 }

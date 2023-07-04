@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateImage = exports.updatePassword = exports.newPasswordRedirect = exports.emailUpdatePassword = exports.confirmAccountByLink = exports.sendEmailNewAccount = exports.googleAuthentic = void 0;
-const bcrypt = require('bcrypt');
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const https_1 = __importDefault(require("https"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
@@ -271,11 +271,11 @@ const updatePassword = (token, password) => __awaiter(void 0, void 0, void 0, fu
         if (!user) {
             return { error: 'user not exist' };
         }
-        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        const passwordIsValid = bcrypt_1.default.compareSync(password, user.password);
         if (passwordIsValid) {
             return { error: 'Try another password' };
         }
-        const newPass = yield bcrypt.hash(password, 10);
+        const newPass = yield bcrypt_1.default.hash(password, 10);
         const newPasswordSucess = yield user_1.default.findOneAndUpdate({ _id: user._id }, { password: newPass });
         if (!newPasswordSucess) {
             return { error: 'some error in change a password' };
@@ -287,15 +287,15 @@ const updatePassword = (token, password) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.updatePassword = updatePassword;
-const updateImage = (userId, fileInfo) => __awaiter(void 0, void 0, void 0, function* () {
+const updateImage = (userId, fileUrl) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!userId) {
             return "userId is missing";
         }
-        if (!fileInfo) {
+        if (!fileUrl) {
             return "image missing";
         }
-        const response = yield user_1.default.findOneAndUpdate({ id: userId }, { pictureUrl: fileInfo.filename });
+        const response = yield user_1.default.findOneAndUpdate({ id: userId }, { pictureUrl: fileUrl });
         if (!response) {
             return "update not successfully";
         }

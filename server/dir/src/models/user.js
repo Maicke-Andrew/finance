@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt = require('bcrypt');
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const UserSchema = new mongoose_1.default.Schema({
     id: {
@@ -54,7 +54,7 @@ const UserSchema = new mongoose_1.default.Schema({
 });
 UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        this.password = yield bcrypt.hash(this.password, 10);
+        this.password = yield bcrypt_1.default.hash(this.password, 10);
         next();
     });
 });

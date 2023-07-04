@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginWithGoogle = exports.validateTokenPass = exports.loginUsedOrNot = exports.emailUsedOrNot = exports.login = void 0;
-const bcrypt = require('bcrypt');
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const temporaryUser_1 = __importDefault(require("../models/temporaryUser"));
@@ -24,7 +24,7 @@ const login = (req) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user) {
             return { error: "User or Password not found" };
         }
-        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        const passwordIsValid = bcrypt_1.default.compareSync(password, user.password);
         if (!passwordIsValid) {
             return { error: "User or Password not found" };
         }
@@ -95,7 +95,7 @@ const loginWithGoogle = (req) => __awaiter(void 0, void 0, void 0, function* () 
         if (!user) {
             return { error: "User or Password not found" };
         }
-        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        const passwordIsValid = bcrypt_1.default.compareSync(password, user.password);
         if (!passwordIsValid) {
             return { error: "User or Password not found" };
         }

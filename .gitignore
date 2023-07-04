@@ -1,5 +1,9 @@
 /serverantigo
-/web
+/web/node_modules
+/web/.env
+/web/dir
 /server/node_modules
 /server/.env
 /server/dir
+# Local Netlify folder
+.netlify

@@ -1,4 +1,4 @@
-import { confirmAccountByLink, emailUpdatePassword, googleAuthentic, newPasswordRedirect, sendEmailNewAccount, updateImage, updatePassword } from '../services/user.service';
+import { confirmAccountByLink, emailUpdatePassword, googleAuthentic, newPasswordRedirect, sendEmailNewAccount, takeImg, updateImage, updatePassword } from '../services/user.service';
 
 interface iConfirmAccount {
     response?: string;
@@ -115,7 +115,21 @@ const userController = {
 
     updateImg: async (req: any, res: any) => {
         try {
-            const response: any = await updateImage(req.body.userId, req.file)
+            const response: any = await updateImage(req.body.userId, req.file.location)
+
+            if (response.error) {
+                return res.status(400).send(response)
+            }
+
+            return res.status(201).send(response)
+        } catch (e) {
+            return res.status(500).send(e)
+        }
+    },
+
+    getImg: async (req: any, res: any) => {
+        try {
+            const response: any = await takeImg(req.body)
 
             if (response.error) {
                 return res.status(400).send(response)

@@ -1,18 +1,22 @@
 import Feedback from "../models/feedback"
 import User from "../models/user"
 
-export const createFeedback = async (file: any, feedbackBody: any) => {
+export const createFeedback = async (files: any, feedbackBody: any) => {
     try {
-        if (!file && !feedbackBody.text) {
-            return { error: 'Missing some file and text' }
+        if (!files && !feedbackBody.text) {
+            return { error: 'Missing some file or some text' }
         }
 
         const fileRefs: string[] = [];
 
-        if (file) {
-            file.forEach((item: any) => {
-                fileRefs.push(item.filename)
-            });
+        if (files) {
+            if (files.length > 1) {
+                files.forEach((item: any) => {
+                    fileRefs.push(item.location)
+                });
+            } else {
+                fileRefs.push(files.location)
+            }
         }
 
         const user = await User.findOne({ id: feedbackBody.userId })
@@ -30,6 +34,28 @@ export const createFeedback = async (file: any, feedbackBody: any) => {
         }
 
         return 'feedback create succesfully'
+    } catch (e) {
+        return { error: e }
+    }
+}
+
+
+export const todayFeedbackUser = async (userEmail: string) => {
+    try {
+
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+
+        const filter = {
+            userEmail: userEmail,
+            createAt: {
+                $gte: today,
+            },
+        };
+
+        const response = await Feedback.find(filter);
+
+        return { todayItems: response.length }
     } catch (e) {
         return { error: e }
     }

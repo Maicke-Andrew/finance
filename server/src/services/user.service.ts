@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt'
 import https from 'https';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
@@ -331,23 +331,37 @@ export const updatePassword = async (token: string, password: string) => {
     }
 }
 
-export const updateImage = async (userId: string, fileInfo: { filename: string }) => {
+export const updateImage = async (userId: string, fileUrl: string) => {
     try {
         if (!userId) {
             return "userId is missing"
         }
 
-        if (!fileInfo) {
+        if (!fileUrl) {
             return "image missing"
         }
 
-        const response = await User.findOneAndUpdate({ id: userId }, { pictureUrl: fileInfo.filename })
+        const response = await User.findOneAndUpdate({ id: userId }, { pictureUrl: fileUrl })
 
         if (!response) {
             return "update not successfully"
         }
 
         return 'Update successfully'
+    } catch (e) {
+        return { error: e }
+    }
+}
+
+export const takeImg = async (id: { userId: string }) => {
+    try {
+        if (!id) {
+            return 'userId is missing'
+        }
+
+        const response = await User.findOne({ id: id.userId }, { pictureUrl: 1, _id: 0 })
+
+        return response
     } catch (e) {
         return { error: e }
     }

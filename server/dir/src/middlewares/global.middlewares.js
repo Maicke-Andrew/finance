@@ -12,13 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fileMulter = exports.validateToken = exports.validUser = exports.validId = void 0;
+exports.validateToken = exports.validUser = exports.validId = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const path_1 = __importDefault(require("path"));
 const user_1 = __importDefault(require("../models/user"));
-// const multer = require('multer');
-const multer_1 = __importDefault(require("multer"));
-const jwt = require('jsonwebtoken');
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validId = (req, res, next) => {
     try {
         const id = req.params.id;
@@ -53,11 +50,11 @@ const validateToken = (token) => __awaiter(void 0, void 0, void 0, function* () 
         if (!token) {
             return "Has no token";
         }
-        const id = jwt.verify(token, process.env.SECRET_JWT);
-        if (!id) {
+        const response = jsonwebtoken_1.default.verify(token, process.env.SECRET_JWT);
+        if (!response.id) {
             return "token expired";
         }
-        const user = yield user_1.default.findById(id).select('+pasword');
+        const user = yield user_1.default.findById(response.id).select('+pasword');
         if (!user) {
             return 'error';
         }
@@ -68,14 +65,3 @@ const validateToken = (token) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.validateToken = validateToken;
-exports.fileMulter = multer_1.default.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadsDir = path_1.default.join(__dirname, `../../uploads/${req.body.dest}`);
-        cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-        const time = new Date();
-        const formatedTime = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}_${time.getHours()};${time.getMinutes()};${time.getSeconds()}`;
-        cb(null, `${formatedTime}_${file.originalname}`);
-    }
-});

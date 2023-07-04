@@ -98,7 +98,7 @@ const userController = {
     }),
     updateImg: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const response = yield (0, user_service_1.updateImage)(req.body.userId, req.file);
+            const response = yield (0, user_service_1.updateImage)(req.body.userId, req.file.location);
             if (response.error) {
                 return res.status(400).send(response);
             }

@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import path from 'path';
 import User from '../models/user';
-// const multer = require('multer');
 import multer from 'multer'
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
 
 export const validId = (req: any, res: any, next: any) => {
     try {
@@ -42,13 +41,13 @@ export const validateToken = async (token: string) => {
             return "Has no token"
         }
 
-        const id = jwt.verify(token, process.env.SECRET_JWT!)
+        const response: any = jwt.verify(token, process.env.SECRET_JWT!)
 
-        if (!id) {
+        if (!response.id) {
             return "token expired"
         }
 
-        const user = await User.findById(id).select('+pasword');
+        const user = await User.findById(response.id).select('+pasword');
 
         if (!user) {
             return 'error'
@@ -60,14 +59,3 @@ export const validateToken = async (token: string) => {
     }
 }
 
-export const fileMulter = multer.diskStorage({
-    destination: (req: any, file: any, cb: any) => {
-        const uploadsDir = path.join(__dirname, `../../uploads/${req.body.dest}`);
-        cb(null, uploadsDir)
-    },
-    filename: (req: any, file: any, cb: any) => {
-        const time = new Date();
-        const formatedTime = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}_${time.getHours()};${time.getMinutes()};${time.getSeconds()}`;
-        cb(null, `${formatedTime}_${file.originalname}`)
-    }
-})

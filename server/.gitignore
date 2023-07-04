@@ -3,3 +3,4 @@
 .slugignore
 .env
 .env.exemple
+/Procfile

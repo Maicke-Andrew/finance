@@ -2,8 +2,6 @@
 
 Aplicação full stack para controle de receitas e despesas, com autenticação, parcelamentos, categorias e suporte a português e inglês.
 
-🔗 **Demo:** _em breve_
-
 ## Funcionalidades
 
 - Cadastro e login com usuário/senha (JWT) ou **login com Google**
